@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+    
+<?xml-stylesheet
+    href="EtaCivEtudiant.xsl"
+    title="EtaCivEtudiant"
+    type="text/xsl"
+    media="explorer"?>    
+    
+<?xml-stylesheet
+    href="AdressesEtudiant.xsl"
+    title="AdressesEtudiant"
+    type="text/xsl"
+    media="explorer"?>        
+    
+<?xml-stylesheet
+    href="InscriptionsEtudiant.xsl"
+    title="InscriptionsEtudiant"
+    type="text/xsl"
+    media="explorer"?>            
+    
+<?xml-stylesheet
+    href="CalendrierEtudiant.xsl"
+    title="CalendrierEtudiant"
+    type="text/xsl"
+    media="explorer"?>        
+    
+<?xml-stylesheet
+    href="ResGeneral.xsl"
+    title="ResGeneral"
+    type="text/xsl"
+    media="explorer"?>
+    
+<?xml-stylesheet
+    href="NotesEtudiant.xsl"
+    title="detailNotes"
+    type="text/xsl"
+    media="explorer"?>    
+<!-- Feuilles de styles pour les resultats d'examen -->
+<!-- <?xml-stylesheet
+    href="Resultat.xsl"
+    title="Resultat"
+    type="text/xsl"
+    media="explorer"?>
+    
+<?xml-stylesheet
+    href="detailResultat.xsl"
+    title="detailResultat"
+    type="text/xsl"
+    media="explorer"?>    
+-->    
+<!-- Fin Feuilles de styles pour les resultats d'examen -->
+    
+<!-- Feuilles de styles pour le calendrier de rentree -->
+<!-- <?xml-stylesheet
+    href="calRent.xsl"
+    title="calRent"
+    type="text/xsl"
+    media="explorer"?>    
+    
+<?xml-stylesheet
+    href="calRentPageInfo.xsl"
+    title="calRentPageInfo"
+    type="text/xsl"
+    media="explorer"?>    
+    
+<?xml-stylesheet
+    href="calRentAffiche.xsl"
+    title="calRentAffiche"
+    type="text/xsl"
+    media="explorer"?>
+-->    
+<!-- Fin Feuilles de styles pour le calendrier de rentree -->
+    
+<!-- Feuilles de styles pour le calendrier d'examen -->
+<!-- <?xml-stylesheet
+    href="calExam.xsl"
+    title="calExam"
+    type="text/xsl"
+    media="explorer"?>    
+    
+<?xml-stylesheet
+    href="calExamPageInfo.xsl"
+    title="calExamPageInfo"
+    type="text/xsl"
+    media="explorer"?>    
+    
+<?xml-stylesheet
+    href="calExamAffiche.xsl"
+    title="calExamAffiche"
+    type="text/xsl"
+    media="explorer"?>    
+-->
+<!-- Fin Feuilles de styles pour le calendrier d'examen -->
+        
+<document>
+</document>

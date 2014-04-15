@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE config SYSTEM "CMonDossierWeb.dtd" >
+<config>
+	<!--
+		pool *name="nom logique du pool" 
+		*type="JNDI ou JDBC" 
+		*url="Nom du pool tomcat si JNDI ou URL du driver JDBC"
+		driverClassName="classe du driver si JDBC"
+		username="nom du user pour la connexion JDBC"
+		password="password pour la connexion JDBC"
+		* = obligatoire
+	-->
+	<pools>
+		<pool name="default" type="JNDI" url="Apogee" />
+	</pools>
+	<!--
+		<actions xmlencoding="type d'encodage xml" (ISO-8859-1 par defaut
+		log = (debug|info|error|fatal) niveau de log (debug par defaut)>
+		...
+		</actions>
+	-->
+	<actions>
+		<!--
+			<action *name="nom logique de l'action" 
+			type="type de l'action : normal ou servant - normal par defaut"
+			*classname="classe de type SubChannel a instancier pour realiser l'action" 
+			rendertype="type de rendu : xsl ou ssl - xsl par defaut"
+			xslfile="fichier xsl a utiliser si rendertype=xsl - par defaut name.xsl"
+			sslfile="nom du fichier ssl a utiliser - null par defaut"
+			ssltitle="entree a utiliser dans le fichier ssl - par defaut le nom de l'action"
+			init="methode d'initialisation de l'action - init par defaut" 
+			setoutput="methode qui fixe les paramatres xsl/xml/ssl - setOutput par defaut"
+			setxml="methode qui fixe le XML - setXML par defaut"
+			renderxml="methode qui effectue le rendu XML - renderXML par defaut"
+			servantfinish="action sur laquelle passer lorsque le servant est fini. Cas ou type=servant"
+			cachetype="type de cache (default|channel|instance) - default par defaut"
+			log = (default|debug|info|error|fatal) niveau de log (celui de actions par defaut)>
+			<param name="nom du param1" value="valeur du parametre1" />
+			...
+			<param name="nom du paramN" value="valeur du parametreN" />
+			/>
+			* = obligatoire
+			toutes les methodes sont eventuellement implementees dans classname
+		-->
+		<action name="default" 
+			classname="RenderStatic" 
+		/>
+		<action name="etat_civil" 
+			classname="EtatCivil"
+			xslfile="EtaCivEtudiant.xsl">
+			<!-- Affichage possible du prénom 2 et/ou prénom 3 et/ou nom d'usage  -->
+			<!--<param name="option">
+				<value>prenom2</value>
+				<value>prenom3</value>
+				<value>nom_usage</value>
+				</param>-->
+		</action>
+		<action name="adresses" 
+			classname="Adresses"
+			rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="AdressesEtudiant"
+		/>
+		<action name="inscriptions" 
+			classname="Inscription" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="InscriptionsEtudiant"
+		/>
+		<action name="interdit" 
+			classname="Inscription" 
+			rendertype="ssl" 
+			sslfile="CMonDossierWeb.ssl" 
+			ssltitle="interdit"
+		/>
+		<action name="calendrier" 
+			classname="Calendrier" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="CalendrierEtudiant"
+		/>
+		<action name="notes" 
+			classname="Notes" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="ResGeneral"
+		/>
+		<action name="detailNotes" 
+			classname="Notes" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="detailNotes"
+		/>
+		<action name="notesPDF" classname="org.esupportail.portal.channels.gestion.CMonDossierWeb.editions.NotesPDF" 
+			xslfile="NotesPDF.xsl"
+		/>
+		<action name="detailNotesPDF" classname="org.esupportail.portal.channels.gestion.CMonDossierWeb.editions.NotesPDF" 
+			xslfile="DetailNotesPDF.xsl"
+		/>
+		<!-- A mettre en commentaire si l'on ne desire pas utiliser le canal mailTo pour l'envoi des mails -->
+		<action name="sendMail" type="servant" classname="org.esupportail.portal.channels.CMailTo.CMailToServant" servantfinish="etat_civil">
+			<param name="content" >
+				<value>
+					Attention : Les adresses mails sont actives du début de l'année universitaire jusqu'au mois de décembre suivant la fin de celle-ci. A l'issue de cette période, elles sont supprimées. Effacer ce texte avant l'envoi du message.
+				</value>
+			</param>
+		</action>    
+		<!-- Actions pour l'affichage des resultats d'examens -->
+		<!--
+			<action name="Resultat" 
+			classname="Resultat" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="Resultat"/>
+			<action name="detailResultat" 
+			classname="DetailResultat" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="detailResultat"/>
+		-->
+		<!-- Fin Actions pour l'affichage des resultats d'examens -->
+		<!-- Actions pour l'affichage du calendrier de rentree -->
+		<!--
+			<action name="calRent" 
+			classname="CalRent" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calRent"/>
+			<action name="calRentAffiche" 
+			classname="CalRentAffiche" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calRentAffiche"/>
+			<action name="calRentPageInfo" 
+			classname="CalRentPageInfo" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calRentPageInfo">
+			<param name="nb_jours_affichage" value="450"/>
+			</action>
+		-->
+		<!-- Fin Actions pour l'affichage du calendrier de rentree -->
+		<!-- Actions pour l'affichage du calendrier d'examen -->
+		<!--
+			<action name="calExam" 
+			classname="CalExam" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calExam"/>
+			<action name="calExamAffiche" 
+			classname="CalExamAffiche" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calExamAffiche"/>
+			<action name="calExamPageInfo" 
+			classname="CalExamPageInfo" rendertype="ssl" sslfile="CMonDossierWeb.ssl" ssltitle="calExamPageInfo">
+			<param name="nb_jours_affichage" value="450"/>
+			</action>
+		-->
+		<!-- Fin Actions pour l'affichage du calendrier d'examen -->
+	</actions>
+	<!-- 
+		Informations permettant de generer les adresses mails des etudiants 
+		Mettre en commentaire le bloc <studentMail></studentMail> pour ne pas utiliser cette fonctionnalite
+	-->
+	<studentMail>
+		<classMail>StudentMail</classMail>
+		<extMail>@etudiant.univ.fr</extMail>
+	</studentMail>
+	<!-- 
+		* Permet d'afficher un lien "Nous contacter" 
+		Si l'action sendMail est activee, utilisation du canal CMailTo
+		Sinon, utilisation de mailTo:....
+		* Pour ne pas utiliser cette fonctionnalite, mettre en commentaire
+	-->
+	<lienContact value="scolarite@univ.fr" />
+	<!-- 
+		* Permet d'afficher ou pas un rappel de l'identite de l'etudiant sur les differentes pages
+		* Pour ne pas utiliser cette fonctionnalité, mettre à false
+	-->  
+	<rappelIdentite value="true"/>
+	<!-- Message affiche si la personne n'a pas le droit de consulter le canal -->
+	<msgInterdit>Impossible de vous identifier pour ce service réservé aux étudiants inscrits à l'Université. Si vous êtes étudiant, il peut s'agir d'une indisponibilité temporaire du service (merci de réessayer ultérieurement).</msgInterdit>
+	<!-- Message affiche si la base de donnees est indisponible -->
+	<msgErreurBD>Le service n'est actuellement pas disponible. Merci de vous reconnecter ultérieurement.</msgErreurBD>
+	<!-- Options de configuration du canal -->     
+	<options>
+		<!-- Edition pdf des notes : true pour l'activer, false sinon -->
+		<option name="notesPDF" value="false"/>
+		<!-- Message complémentaire concernant le calendrier des examens 
+			 Mettre la value à vide ou commenter la balise <option> pour ne pas utiliser cette fonctionnalité -->
+		<option name="cmtCalExamen" value="Les dates d'épreuves orales ne figurent pas sur ce calendrier. Consultez le panneau d'affichage de votre composante pour connaître vos dates d'oraux."/>
+		<!-- Affichage du numéro de place dans le calendrier des examens : true pour l'activer, false sinon --> 
+		<option name="affNumPlaceExamen" value="false"/>
+		<!--<option name="xxx" value="xxx"/>-->
+	</options>        
+	
+</config>

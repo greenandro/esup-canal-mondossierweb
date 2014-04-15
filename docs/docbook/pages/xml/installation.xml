@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//UR1//DTD docbookAllegeEsup//FR"
+"http://www.esup-portail.org/consortium/espace/docbook/xxe/dtd/docbook_allege_esup.dtd">
+<article lang="FR">
+  <title>Canal MonDossierWeb</title>
+
+  <subtitle>Installation</subtitle>
+
+  <section>
+    <title>Pré-requis</title>
+
+    <para>Le canal a été testée sur Apogée 3.40 avec une base Oracle 9i. Il ne
+    fonctionne pas sur une base Oracle 8i.</para>
+
+    <para>Pour qu'il fonctionne correctement, il est nécessaire d'avoir
+    installé au préalable : <itemizedlist>
+        <listitem>
+          <para>Le package <ulink
+          url="http://esup-portail.org/consortium/espace/Scolarite_3A/connecteur_apogee.html">connecteur
+          Apogée</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>Le package <ulink
+          url="http://esup-portail.org/consortium/espace/Socle_1A/esup-utils-mag/index.html">esup-utils-mag</ulink></para>
+        </listitem>
+
+        <listitem>
+          <para>Le canal <ulink
+          url="http://esup-portail.org/consortium/espace/Comm_2D/CMailto/index.html">MailTo</ulink>
+          (utilisé en servant ; optionnel : voir la partie
+          Configuration)</para>
+        </listitem>
+
+        <listitem>
+          <para>Le driver oracle 9i (pour Apogée 3.40) nommé
+          <filename>ojdbc14.jar</filename> qui remplace le précédent
+          <filename>classes12.jar</filename>.<emphasis> </emphasis>Oracle 9i
+          est indispensable au bon fonctionnement du canal.</para>
+        </listitem>
+      </itemizedlist><note>
+        <para>L'édition des notes au format PDF nécessite la version 2.4 du
+        MAG</para>
+      </note></para>
+  </section>
+
+  <section>
+    <title>Installation</title>
+
+    <para>L'installation du canal MonDossierWeb repose sur les actions
+    suivantes:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Configuration du canal</para>
+      </listitem>
+
+      <listitem>
+        <para>Installation éventuelle des plugins</para>
+      </listitem>
+
+      <listitem>
+        <para>Déploiement du canal</para>
+      </listitem>
+    </itemizedlist>
+
+    <section>
+      <title>Configuration du canal</title>
+
+      <para>La configuration générale du canal se fait via le fichier
+      <filename>properties/CMonDossierWeb.xml</filename> Seuls les points
+      abordés ci-dessous sont paramètrables.</para>
+
+      <section>
+        <title>Pool de connexion</title>
+
+        <para>Il fait référence au pool de connexion vers Apogée. Ce pool doit
+        conserver comme nom "default" (<emphasis>name="default"</emphasis>) .
+        Si vous conservez <emphasis>JNDI</emphasis> comme valeur pour
+        l'attribut <emphasis>type</emphasis>, il faut que l'attribut
+        <emphasis>url</emphasis> match le pool de connexion Tomcat.</para>
+
+        <para>Exemple :</para>
+
+        <para>Dans le fichier de configuration du canal : <programlisting>&lt;pool name="default" type="JNDI" url="<emphasis>Apogee</emphasis>" /&gt;</programlisting></para>
+
+        <para>Dans le fichier <filename>server.xml</filename> de Tomcat :
+        <programlisting>&lt;Resource name="jdbc/<emphasis>Apogee</emphasis>" auth="Container" type="javax.sql.DataSource"
+    username="..." password="..."
+    driverClassName="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@&lt;serveur&gt;:&lt;port&gt;:&lt;base&gt;"
+    maxActive="100" maxIdle="30" maxWait="10000"/&gt;</programlisting></para>
+
+        <para>Pour plus de détails sur la configuration du pool, voir le mdule
+        <emphasis>database</emphasis> du package
+        <emphasis>esup-utils-mag</emphasis>.</para>
+      </section>
+
+      <section>
+        <title>Actions</title>
+
+        <para>La définition des actions ne doit pas être modifiée.</para>
+
+        <para>Cependant, il est possible pour l'action
+        <emphasis>etat_civil</emphasis> de décommenter un paramètre
+        <emphasis>option</emphasis> dont la liste des valeurs spécifie les
+        options d’affichage activées : prénom2 et/ou prénom3 et/ou nom
+        d’usage.</para>
+
+        <programlisting>&lt;param name="option"&gt;
+   &lt;value&gt;prenom2&lt;/value&gt;
+   &lt;value&gt;prenom3&lt;/value&gt;
+   &lt;value&gt;nom_usage&lt;/value&gt;
+&lt;/param&gt;</programlisting>
+
+        <para>Ces options d'affichage sont alors visibles dans l'onglet
+        Etat-civil ainsi que dans le rappel de l'identité de l'étudiant,
+        disponible sur les autres pages.</para>
+
+        <para>Pour n'utiliser par exemple que le nom d'usage, il convient de
+        mettre en commentaire, laisser vide ou supprimer les balises
+        <emphasis>&lt;value&gt;</emphasis> correspondant aux autres options.
+        Attention, la dtd exige au moins une sous-balise
+        <emphasis>&lt;value&gt;</emphasis> : il faut donc mettre en
+        commentaire le bloc<emphasis> &lt;param&gt;</emphasis> pour n'utiliser
+        aucune des options d'affichage.</para>
+
+        <para>Par défaut, les options d'affichage sont désactivées.</para>
+      </section>
+
+      <section>
+        <title>Adresse mail des étudiants</title>
+
+        <para>La balise <emphasis>studentMail</emphasis> permet de spécifier
+        la classe implémentant la méthode de récupération des adresses mail
+        des étudiants (sous balise <emphasis>classMail</emphasis>) ainsi que
+        l'extension utilisée pour générer l'adresse à partir du login (sous
+        balise <emphasis>extMail</emphasis>). Mettre en commentaire le bloc
+        <emphasis>&lt;studentMail&gt;&lt;/studentMail&gt;</emphasis> pour ne
+        pas utiliser cette fonctionnalite.<programlisting>&lt;studentMail&gt;
+ &lt;classMail&gt;StudentMail&lt;/classMail&gt;
+ &lt;extMail&gt;@etudiant.univ.fr&lt;/extMail&gt;
+&lt;/studentMail&gt;</programlisting></para>
+
+        <note>
+          <para>Ne pas mettre en commentaire ce bloc si l'action
+          <emphasis>sendMail</emphasis> est activée.</para>
+
+          <para>Pour personnaliser la récupération des adresses mail, il faut
+          définir sa propre classe <emphasis>StudentMail</emphasis> qui
+          implémente l'interface <emphasis>IMail</emphasis> et indiquer son
+          nom dans le fichier de configuration du canal (balise
+          <emphasis>&lt;classMail&gt;</emphasis>).</para>
+        </note>
+      </section>
+
+      <section>
+        <title>Lien "Nous contacter"</title>
+
+        <para>Il est possible d'afficher sur toutes les pages du canal un lien
+        "Nous contacter" permettant aux étudiants de poser des questions à la
+        Scolarité.</para>
+
+        <para>Si l'action <emphasis>sendMail</emphasis> est activée, le canal
+        <emphasis>CMailTo</emphasis> sera utilisé. Dans le cas contraire, le
+        lien sera de la forme <emphasis>mailTo:....</emphasis><programlisting>&lt;lienContact value="scolarite@univ.fr" /&gt;</programlisting>Pour
+        ne pas utiliser cette fonctionnalité, mettre en commentaire la
+        balise.</para>
+      </section>
+
+      <section>
+        <title>Rappel de l'identité de l'étudiant</title>
+
+        <para>Il es possible de rappeler sur chacune des pages du canal un
+        rappel de l'étudiant connecté. Cette fonctionnalité peut-être utile en
+        cas d'impression.<programlisting>&lt;rappelIdentite value="true"/&gt;</programlisting>Pour
+        ne pas utiliser cette fonctionnalité, mettre à
+        <emphasis>false</emphasis>.</para>
+
+        <note>
+          <para>Pour ne pas utiliser le canal MailTo pour l'envoi des mails
+          lors des clics sur les adresses électroniques des étudiants, mettre
+          en commentaire la balise <emphasis>&lt;action name="sendMail"
+          ..../&gt;</emphasis>. Dans ce cas, les liens sur les adressses mail
+          seront du type <emphasis>mailto:...</emphasis></para>
+        </note>
+      </section>
+
+      <section>
+        <title>Messages</title>
+
+        <section>
+          <title>Message affiché si l'utilisateur n'a pas le droit de
+          consulter le canal</title>
+
+          <para>Le message affiché à l'utilisateur est paramètrable via la
+          balise <emphasis>msgInterdit.</emphasis></para>
+        </section>
+
+        <section>
+          <title>Message affiché si la base de données n'est pas
+          disponible</title>
+
+          <para>Le message affiché à l'utilisateur est paramètrable via la
+          balise <emphasis>msgErreurBD.</emphasis></para>
+        </section>
+      </section>
+
+      <section>
+        <title>Autres options de configuration</title>
+
+        <para>Cette partie permet de rajouter des options de configuration non
+        obligatoires ou propre à un établissement.</para>
+
+        <para>L'édition pdf des notes est proposée dans cette section. Cette
+        option est désactivée par défaut.</para>
+
+        <note>
+          <para>Si vous désirez utiliser l'édition pdf des notes, il faut
+          déployer les jar <emphasis>fop-0.20.5.jar</emphasis>,
+          <emphasis>batik-1.6.jar</emphasis> et
+          <emphasis>avalon-framework-4.2.0.jar</emphasis> disponibles dans le
+          répertoire <emphasis>lib</emphasis> du canal</para>
+        </note>
+
+        <para>Un message explicatif pour le calendrier des examens est
+        également proposé. Il est ainsi personnalisable et peut être désactivé
+        en mettant à vide la propriété <emphasis>value</emphasis> ou en
+        commentant la balise <emphasis>&lt;option&gt;</emphasis>
+        correspondante.</para>
+
+        <para>Enfin, toujours pour le calendrier des examens, il est possible
+        de désactiver l'affichage des numéros de place en mettant à
+        <emphasis>false</emphasis> l'option
+        <emphasis>affNumPlaceExamen</emphasis>.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Installation des plug-ins</title>
+
+      <para>Nancy 2 et Rennes 1 n'extrayant pas les données provenant d'APOGEE
+      de la même façon, il existe donc la possibilité d'installer des plug-ins
+      d'après votre méthode d'extraction des données.</para>
+
+      <para>Les sources des plug-ins se situent dans le répertoire
+      <filename>plugin</filename> présent à la racine du package. Ils ne sont
+      pas deployés en même temps que le canal.</para>
+
+      <para>Pour les utiliser, il faut décommenter les lignes correspondantes
+      dans le fichier de configuration <filename>CMonDossierWeb.xml</filename>
+      qui se trouve dans le répertoire <filename>properties</filename> et
+      mettre en commentaire les actions dont vous ne vous servez pas.</para>
+
+      <para>Décommenter aussi dans le fichier
+      <filename>CMonDossierWeb.ssl</filename> qui se trouve dans
+      <filename>webpages/stylesheets/org/esupportail/portal/channels/gestion/CMonDossierWeb/</filename>
+      les lignes correspondant aux plug-ins.</para>
+
+      <para>Voir aussi le fichier <filename>Liens.xsl</filename> pour
+      s'assurer des liens qui seront présent à l'affichage du canal et le
+      fichier <filename>default.xsl</filename> pour décommenter la déscription
+      du plugin Résultat.</para>
+
+      <para>Faire ensuite un <command>ant deploy</command> pour déployer les
+      modifications de configurations ayant trait aux plug-ins.</para>
+
+      <para>Pour les déployer, il faut lancer la commande :<itemizedlist>
+          <listitem>
+            <para><command>ant plugCalRent</command> pour déployer le plugin
+            calendrier de rentrée</para>
+          </listitem>
+        </itemizedlist><itemizedlist>
+          <listitem>
+            <para><command>ant plugCalExam</command> pour déployer le plugin
+            de calendrier d'examens</para>
+          </listitem>
+        </itemizedlist><itemizedlist>
+          <listitem>
+            <para><command>ant plugResultats</command> pour déployer le plugin
+            d'affichage des résultats de l'année en cours</para>
+          </listitem>
+        </itemizedlist></para>
+    </section>
+
+    <section>
+      <title>Déploiement du Canal</title>
+
+      <para>Préparation du déploiement : modifier le fichier
+      <filename>build.properties</filename> en fonction de la version de
+      portail que vous utilisez (en prenant modèle sur le fichier
+      <filename>build.sample.properties</filename>).</para>
+
+      <para>Lancez la commande suivante relative au fichier
+      <filename>build.xml</filename> contenu dans le package:</para>
+
+      <screen>ant deploy</screen>
+
+      <para>Il ne reste plus qu'à l'administrateur du portail de publier le
+      canal.</para>
+
+      <section>
+        <title>Publication du canal</title>
+
+        <para>La publication du canal se fait en saisissant le nom de classe
+        suivant:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><varname>org.esupportail.portal.channels.gestion.CMonDossierWeb.CMonDossierWeb</varname></para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+  </section>
+</article>

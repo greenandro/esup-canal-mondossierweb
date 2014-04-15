@@ -1,0 +1,596 @@
+<!--
+     Ce fichier est le fichier type des canaux esup.
+	 
+-->
+<project name="esup-pluginCalExam" default="compile" basedir=".">
+	<!-- ===================== Fichier de propriete  =========================== -->
+	<!-- nom du fichier qui sera lu pour fixer certaines proprietes -->
+	<property file="../../build.properties" />
+
+	<!-- ================= Nom de fichiers et de repertoires =================== -->
+	<!-- lus dans  build.properties
+	app.name.home : Nom du canal
+	app.version : Version du canal
+	app.name.dist : Nom de ditribution du canal
+	tomcat.home : Repertoire d'installation de Tomcat
+	uportal.home : Repertoire d'installation d'uPortal
+	deploy.home : Repertoire de deploiement
+	deploy.tree : Arborescence des sources
+	properties.tree : Arborescence des proprietes
+-->
+
+	<!-- valeurs standards -->
+	<!-- les racines (depuis le repertoire du canal) -->
+	<property name="doc.home" value="docs" />
+	<property name="javadoc.home" value="docs/api" />
+	<property name="source.home" value="source" />
+	<property name="properties.home" value="properties" />
+	<property name="lib.home" value="lib" />
+	<property name="dist.home" value="dist" />
+	<property name="build.home" value="build" />
+	<property name="webpages.home" value="webpages" />
+	<property name="stylesheets.home"
+	          value="${webpages.home}/stylesheets/${deploy.tree}/${app.name.home}"
+	/>
+	<property name="media.home"
+	          value="${webpages.home}/media/${deploy.tree}/${app.name.home}"
+	/>
+	<property name="db.home" value="db" />
+	<property name="junit.home" value="tests" />
+	<property name="pubchan.home" value="." />
+
+	<property name="plugin.home" value="plugin" />
+
+	<!-- dans uportal (depuis le repertoire d'installation d'uPortal) -->
+	<property name="pubchan.uportal" value="properties/chanpub" />
+	<property name="pubchan.build.uportal"
+	          value="build/WEB-INF/classes/${pubchan.uportal}"
+	/>
+	<property name="lib.uportal" value="WEB-INF/lib" />
+	<property name="classes.uportal" value="WEB-INF/classes" />
+	<property name="properties.uportal"
+	          value="WEB-INF/classes/properties/channels"
+	/>
+	<property name="media.uportal" value="media" />
+
+	<!-- dans tomcat (depuis le repertoire d'installation de Tomcat) -->
+	<property name="lib.tomcat" value="common/lib" />
+
+	<!-- dans le deploiement (depuis le repertoire de deploiement) -->
+	<property name="app.name.shortdist"
+	          value="${app.name.home}-${app.version}"
+	/>
+	<property name="lib.deploy" value="${lib.uportal}" />
+	<property name="classes.build" value="${classes.uportal}" />
+	<property name="classes.deploy"
+	          value="${classes.uportal}/${deploy.tree}/${app.name.home}"
+	/>
+	<property name="properties.deploy"
+	          value="${properties.uportal}/${properties.tree}/${app.name.home}"
+	/>
+	<property name="stylesheets.deploy" value="${classes.deploy}" />
+	<property name="media.deploy"
+	          value="${media.uportal}/${deploy.tree}/${app.name.home}"
+	/>
+
+	<!-- junit -->
+	<property name="junit.build" value="buildJunit" />
+	<property name="junit.data" value="${junit.build}/data" />
+	<property name="junit.reports" value="${junit.build}/reports" />
+
+	<!--  ==================== Options de compilation ==================== -->
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="true" />
+	<property name="compile.optimize" value="true" />
+
+	<!-- ==================== Classpath de compilation  =========================== -->
+	<path id="compile.classpath">
+		<!-- Les classes d'uPortal -->
+		<pathelement location="${deploy.home}/${classes.uportal}" />
+
+		<!-- Les lib d'uPortal -->
+		<fileset dir="${deploy.home}/${lib.uportal}" includes="**/*.jar" />
+
+		<!-- Les lib de Tomcat -->
+		<fileset dir="${tomcat.home}/${lib.tomcat}" includes="**/*.jar" />
+
+		<!-- Les lib locales -->
+		<fileset dir="${lib.home}" includes="**/*.jar" />
+
+		<!-- Les lib des canaux -->
+		<fileset dir="${deploy.home}/${lib.deploy}" includes="**/*.jar" />
+
+		<!-- Les classes de test du projet -->
+		<pathelement location="${junit.build}" />
+	</path>
+
+	<!-- ==================== Clean Target ==================================== -->
+	<target name="clean"
+	        description="Effacement des repertoires : ${build.home}, ${junit.build} et ${dist.home}"
+	>
+		<!-- Suppression du repertoire build -->
+		<delete dir="${build.home}" />
+
+		<!-- Suppression du repertoire build des classes de test -->
+		<delete dir="${junit.build}" />
+
+		<!-- Suppression du repertoire de distribution -->
+		<delete dir="${dist.home}" />
+	</target>
+
+	<!-- ==================== Prepare Target ================================== -->
+
+
+
+	<target name="prepare"
+	        depends="prepareBuild"
+	        description="Preparation de l'environnement de travail"
+	>
+		<!-- Creation l'arborescence standart du package -->
+		<mkdir dir="${javadoc.home}" />
+		<mkdir dir="${doc.home}" />
+		<mkdir dir="${junit.home}" />
+		<mkdir dir="${junit.home}/${deploy.tree}/${app.name.home}" />
+		<mkdir dir="${source.home}" />
+		<mkdir dir="${source.home}/${deploy.tree}/${app.name.home}" />
+		<mkdir dir="${properties.home}" />
+		<mkdir dir="${webpages.home}" />
+		<mkdir dir="${stylesheets.home}" />
+		<mkdir dir="${db.home}" />
+
+		<antcall target="prepareINSTALL" />
+		<antcall target="prepareUPGRADE" />
+		<antcall target="prepareREADME" />
+		<antcall target="prepareLICENCE" />
+		<antcall target="prepareCHANGELOG" />
+
+	</target>
+
+	<available file="INSTALL" type="file" property="installExists" />
+	<target name="prepareINSTALL" unless="installExists">
+		<echo message="Le fichier INSTALL décrit la procédure d'installation"
+		      level="info"
+		/>
+		<touch file="INSTALL" />
+	</target>
+
+	<available file="UPGRADE" type="file" property="upgradeExists" />
+	<target name="prepareUPGRADE" unless="upgradeExists">
+		<echo message="Le fichier UPGRADE décrit la procédure de mise à jour"
+		      level="info"
+		/>
+		<touch file="UPGRADE" />
+	</target>
+
+	<available file="README" type="file" property="readmeExists" />
+	<target name="prepareREADME" unless="readmeExists">
+		<echo message="Le fichier README présente brièvement le canal"
+		      level="info"
+		/>
+		<touch file="README" />
+	</target>
+
+	<available file="LICENCE" type="file" property="licenceExists" />
+	<target name="prepareLICENCE" unless="licenceExists">
+		<echo message="Le fichier LICENCE contient la licence à laquelle est soumise le canal"
+		      level="info"
+		/>
+		<echo message="Copiez la licence Esup depuis : http://www.esup-portail.org/license.html"
+		      level="warning"
+		/>
+		<touch file="LICENCE" />
+	</target>
+
+	<available file="ChangeLog" type="file" property="changelogExists" />
+	<target name="prepareCHANGELOG" unless="changelogExists">
+		<echo message="Le fichier ChangeLog contient l'historique des modifications du canal"
+		      level="info"
+		/>
+		<touch file="ChangeLog" />
+	</target>
+
+	<target name="prepareBuild">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/${classes.build}" />
+		<mkdir dir="${lib.home}" />
+		<mkdir dir="${media.home}" />
+		<mkdir dir="${properties.home}" />
+	</target>
+
+
+
+
+	<!-- ==================== Deploiement complet ====================================== -->
+	<target name="all"
+	        depends="clean,undeploy,deploy"
+	        description="Deploiement complet du canal"
+	/>
+
+
+	<!-- ==================== Compile Target ================================== -->
+	<target name="compile"
+	        depends="prepareBuild"
+	        description="Compile les sources Java "
+	>
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/${classes.build}" />
+		<!-- Compile les sources -->
+		<javac srcdir="${source.home}"
+		       destdir="${build.home}/${classes.build}"
+		       debug="${compile.debug}"
+		       deprecation="${compile.deprecation}"
+		       optimize="${compile.optimize}"
+		>
+			<classpath refid="compile.classpath" />
+		</javac>
+		<!-- Copie des fichiers de proprietes -->
+		<copy todir="${build.home}/${properties.deploy}">
+			<fileset dir="${properties.home}" includes="**/*" />
+		</copy>
+
+		<!-- Copie des feuilles de styles  -->
+		<copy todir="${build.home}/${stylesheets.deploy}">
+			<fileset dir="${stylesheets.home}"
+			         includes="**/*.xsl,**/*.ssl,**/*.sdf,**/*.xml"
+			/>
+		</copy>
+
+		<!-- Copie des images .... -->
+		<copy todir="${build.home}/${media.deploy}">
+			<fileset dir="${media.home}"
+			         includes="**/*.gif,**/*.js,**/*.jpg,**/*.png,**/*.css"
+			/>
+		</copy>
+
+	</target>
+
+	<!-- ==================== Deploy Target =================================== -->
+	<target name="deploy" depends="compile" description="Deploiement du canal">
+		<!-- Copie du repertoire build dans le repertoire de production -->
+		<copy todir="${deploy.home}">
+			<fileset dir="${build.home}" />
+		</copy>
+	</target>
+
+	<!-- ==================== Deploylibs Target =================================== -->
+	<target name="deploylibs" description="Deploiement des librairies du canal">
+
+		<echo message="!!!!!!!!!!!!!!!!!!!!!!!!!!!" level="info" />
+		<echo message="ATTENTION si une librairie avec le meme nom existe deja,
+elle ne sera pas ecrasee. Il faudra controler le nombre de
+librairies deployees."
+		      level="info"
+		/>
+		<echo message="!!!!!!!!!!!!!!!!!!!!!!!!!!!" level="info" />
+		<input message="Etes-vous sur de vouloir deployer les librairies ?"
+		       validargs="o,n"
+		       addproperty="doDeployLib"
+		/>
+
+		<condition property="stopDeployLib">
+			<equals arg1="n" arg2="${doDeployLib}" />
+		</condition>
+
+		<fail if="stopDeployLib">Annulation du déploiement des librairies</fail>
+
+		<copy todir="${deploy.home}/${lib.deploy}"
+		      verbose="true"
+		      overwrite="false"
+		>
+			<fileset dir="${lib.home}" />
+		</copy>
+		<echo message="Copie effectuee." />
+	</target>
+
+	<!-- ==================== DeployPubchan Target =================================== -->
+	<target name="deploypubchan" description="Deploiement du canal">
+		<echo message="Cette manipulation ne deploie pas le canal. Elle
+copie les fichiers dans le répertoire chanpub de uportal. Faites ant
+uportal.puchan -DChannel=all pour republier tous les canaux"
+		      level="info"
+		>
+		</echo>
+		<copy todir="${uportal.home}/${pubchan.uportal}" verbose="false">
+			<fileset dir="${pubchan.home}">
+				<include name="pubchan_*.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- ==================== Undeploy Target =================================== -->
+	<target name="undeploy" description="Suppression du canal">
+		<delete dir="${deploy.home}/${classes.deploy}" />
+		<delete dir="${deploy.home}/${properties.deploy}" />
+		<delete dir="${deploy.home}/${stylesheets.deploy}" />
+		<delete dir="${deploy.home}/${media.deploy}" />
+	</target>
+
+
+	<!-- ==================== Undeploylibs Target =================================== -->
+	<target name="undeploylibs"
+	        description="Suppression des librairies du canal"
+	>
+
+		<echo message="!!!!!!!!!!!!!!!!!!!!!!!!!!!" level="info" />
+		<echo message="ATTENTION si une librairie est utilisee par un autre
+canal, elle sera tout de meme effacee."
+		      level="info"
+		/>
+		<echo message="!!!!!!!!!!!!!!!!!!!!!!!!!!!" level="info" />
+		<input message="Etes-vous sur de vouloir supprimer les librairies ?"
+		       validargs="o,n"
+		       addproperty="doUndeployLib"
+		/>
+
+		<condition property="stopUndeployLib">
+			<equals arg1="n" arg2="${doUndeployLib}" />
+		</condition>
+
+		<fail if="stopUndeployLib">Annulation de la suppression des librairies</fail>
+
+
+		<delete verbose="true">
+			<fileset dir="${deploy.home}/${lib.deploy}">
+				<present targetdir="${lib.home}" />
+			</fileset>
+		</delete>
+
+		<echo message="Suppression effectuee." />
+	</target>
+
+	<!-- ==================== UndeployPubchan Target =================================== -->
+	<target name="undeploypubchan" description="Deploiement du canal">
+		<echo message="Cette manipulation n'enleve pas la declaration du canal. Elle
+enleve les fichiers du le répertoire chanpub de uportal."
+		      level="info"
+		>
+		</echo>
+		<delete verbose="false" failonerror="no">
+			<fileset dir="${uportal.home}/${pubchan.uportal}">
+				<present targetdir="${pubchan.home}" />
+			</fileset>
+		</delete>
+		<delete verbose="false" failonerror="no">
+			<fileset dir="${uportal.home}/${pubchan.build.uportal}">
+				<present targetdir="${pubchan.home}" />
+			</fileset>
+		</delete>
+		<delete verbose="false" failonerror="no">
+			<fileset dir="${deploy.home}/${pubchan.uportal}">
+				<present targetdir="${pubchan.home}" />
+			</fileset>
+		</delete>
+	</target>
+
+	<!-- ==================== Dist Target ===================================== -->
+	<target name="dist"
+	        depends="clean,compile"
+	        description="Creation de la distribution"
+	>
+		<mkdir dir="${dist.home}" />
+		<!-- Creation du .jar -->
+		<delete file="${dist.home}/${app.name.deploy}.jar" />
+
+		<jar jarfile="${dist.home}/${app.name.deploy}.jar">
+			<fileset dir="${build.home}/${classes.deploy}/${deploy.tree}/${app.name.home}-${app.version}"
+			         includes="*.class"
+			         defaultexcludes="true"
+			/>
+		</jar>
+
+	</target>
+
+
+	<!-- ==================== BuildTar Target ================================== -->
+	<target name="buildtar" description="Creation du package" depends="prepare">
+		<delete file="./${app.name.deploy}-${app.version}.tar" />
+
+		<delete file="./${app.name.deploy}-${app.version}.tar.gz" />
+
+		<!-- Creation du .tar.gz -->
+		<tar tarfile="./${app.name.deploy}-${app.version}.tar">
+			<tarfileset dir="${source.home}"
+			            includes="**/*.java"
+			            prefix="${app.name.home}-${app.version}/${source.home}"
+			/>
+			<tarfileset dir="${lib.home}"
+			            includes="**/*.jar"
+			            prefix="${app.name.home}-${app.version}/${lib.home}"
+			/>
+			<tarfileset dir="${webpages.home}"
+			            includes="**/*.gif,**/*.jpg,**/*.png,**/*.css,**/*.js,**/*.xsl,**/*.ssl,**/*.sdf,**/*.xml"
+			            prefix="${app.name.home}-${app.version}/${webpages.home}"
+			/>
+			<tarfileset dir="${properties.home}"
+			            includes="**/*.dtd,**/*.xml,**/*.properties"
+			            prefix="${app.name.home}-${app.version}/${properties.home}"
+			/>
+			<tarfileset dir="${doc.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${doc.home}"
+			/>
+			<tarfileset dir="${db.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${db.home}"
+			/>
+			<tarfileset dir="${junit.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${junit.home}"
+			/>
+			<tarfileset dir="${plugin.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${plugin.home}"
+			/>
+			<tarfileset dir="." prefix="${app.name.home}-${app.version}">
+				<include name="*" />
+				<exclude name=".*" />
+			</tarfileset>
+		</tar>
+
+		<gzip src="./${app.name.deploy}-${app.version}.tar"
+		      zipfile="./${app.name.deploy}-${app.version}.tar.gz"
+		/>
+
+		<delete file="./${app.name.deploy}-${app.version}.tar" />
+	</target>
+
+
+	<!-- ==================== Buildzip Target ================================== -->
+	<target name="buildzip" description="Creation du package" depends="prepare">
+		<delete file="./${app.name.deploy}-${app.version}.zip" />
+
+		<!-- Creation du .zip -->
+		<zip destfile="./${app.name.deploy}-${app.version}.zip">
+			<zipfileset dir="${source.home}"
+			            includes="**/*.java"
+			            prefix="${app.name.home}-${app.version}/${source.home}"
+			/>
+			<zipfileset dir="${lib.home}"
+			            includes="**/*.jar"
+			            prefix="${app.name.home}-${app.version}/${lib.home}"
+			/>
+			<zipfileset dir="${webpages.home}"
+			            includes="**/*.gif,**/*.jpg,**/*.png,**/*.css,**/*.js,**/*.xsl,**/*.ssl,**/*.sdf,**/*.xml"
+			            prefix="${app.name.home}-${app.version}/${webpages.home}"
+			/>
+			<zipfileset dir="${properties.home}"
+			            includes="**/*.dtd,**/*.xml,**/*.properties"
+			            prefix="${app.name.home}-${app.version}/${properties.home}"
+			/>
+			<zipfileset dir="${doc.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${doc.home}"
+			/>
+			<zipfileset dir="${db.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${db.home}"
+			/>
+			<zipfileset dir="${junit.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${junit.home}"
+			/>
+			<zipfileset dir="${plugin.home}"
+			            includes="**/*"
+			            prefix="${app.name.home}-${app.version}/${plugin.home}"
+			/>
+			<zipfileset dir="." prefix="${app.name.home}-${app.version}">
+				<include name="*" />
+				<exclude name=".*" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<!-- ==================== Javadoc Target ================================== -->
+
+	<target name="javadoc"
+	        depends="compile"
+	        description="Creation de la javadoc"
+	>
+
+		<javadoc sourcepath="${source.home}"
+		         classpathref="compile.classpath"
+		         destdir="${javadoc.home}"
+		         access="public"
+		         author="true"
+		         version="true"
+		         windowtitle="${app.name.home} ${app.version} API Documentation"
+		>
+			<fileset dir="${source.home}" defaultexcludes="yes">
+				<include name="**" />
+			</fileset>
+
+			<doctitle>
+				<![CDATA[${app.name.home} ${app.version}<br/>API Documentation]]>
+         </doctitle>
+
+			<header>
+				<![CDATA[${app.name.home} ${app.version}<br/>API Documentation]]>
+         </header>
+		</javadoc>
+	</target>
+
+
+	<!-- ==================== Test Target =================================== -->
+	<target name="junit.init">
+		<mkdir dir="${junit.build}" />
+		<delete dir="${junit.data}" />
+		<delete dir="${junit.reports}" />
+		<mkdir dir="${junit.data}" />
+		<mkdir dir="${junit.reports}" />
+	</target>
+
+	<target name="junit.compile" depends="junit.init">
+		<javac srcdir="${junit.home}" destdir="${junit.build}">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="junit.start"
+		depends="compile,junit.compile"
+		description="Lancement des tests Junit et creation du rappot dans ${junit.data}"
+	>
+		<junit printsummary="yes"
+		       errorProperty="junit.failed"
+		       failureProperty="junit.failed"
+		>
+			<classpath refid="compile.classpath" />
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+
+			<!-- Pour executer une classe junit
+			<test todir="${junit.data}" name="org.esupportail.portal.channels.CWebdav.AllTests" />
+			-->
+
+			<!-- Pour executer plusieurs classes junit 
+			
+			methode 1 : 
+			<test todir="${junit.data}" name="org.esupportail.portal.channels.CWebdav.TestConfig" />
+    		<test todir="${junit.data}" name="org.esupportail.portal.channels.CWebdav.TestCreate" />
+    		<test todir="${junit.data}" name="org.esupportail.portal.channels.CWebdav.LsTest" />
+    		<test todir="${junit.data}" name="org.esupportail.portal.channels.CWebdav.DavControlTest" />
+    		-->
+
+			<!-- methode 2 : -->
+			<batchtest todir="${junit.data}">
+				<fileset dir="${junit.build}" includes="**/Test*.class" />
+			</batchtest>
+
+		</junit>
+
+		<!-- Creation du raport de junit -->
+		<junitreport todir="${junit.data}">
+			<fileset dir="${junit.data}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.reports}" />
+		</junitreport>
+
+		<fail message="Tests failed. Check log and/or reports."
+		      if="junit.failed"
+		/>
+	</target>
+	
+	<!-- ==================== CalRent Target =================================== -->
+	<target name="plugCalRent" depends="" description="Installation du plug-in Calendrier de Rentree">
+		<echo message="Installation du plug-in Calendrier de Rentree"/>
+	        <ant dir="./plugin/calRent" target="deploy" />
+	</target>
+
+	<!-- ==================== Test Target =================================== -->
+	<target name="plugCalExam" depends="" description="Creation des tests JUnit du canal">
+		<echo message="Installation du plug-in Calendrier d examens"/>
+        	<ant dir="./plugin/calExam" target="deploy" />
+	</target>
+
+	<!-- ==================== Test Target =================================== -->
+	<target name="plugResultats" depends="" description="Creation des tests JUnit du canal">
+		<echo message="Installation du plug-in Resultats"/>
+        	<ant dir="./plugin/resultats" target="deploy" />
+	</target>
+
+	<!-- ==================== Test Target =================================== -->
+	<target name="test" depends="" description="Creation des tests JUnit du canal">
+	</target>
+
+</project>

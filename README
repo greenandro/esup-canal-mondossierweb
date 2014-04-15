@@ -1,0 +1,15 @@
+Canal MonDossierWeb
+-------------------
+
+Il s'agit du canal qui présente le dossier Apogée d'un étudiant
+
+La documention en ligne est à cette adresse : http://www.esup-portail.org/consortium/espace/Scolarite_3A/CMonDossierWeb/index.html
+
+Le canal est validé pour les versions suivantes de dépendances :
+
+Framework MAG / Database : v2.01 ou supérieure
+ConnectorApogee : v1.03-RC1 ou supérieure
+Canal MailTo : v1.0.2 (optionnel) ou supérieure
+
+Si vous ne voulez pas installer/utiliser le canal MailTo pour l'envoi des mails, il vous suffit de mettre en commentaire l'action "senMail" 
+du fichier de configuration du canal.

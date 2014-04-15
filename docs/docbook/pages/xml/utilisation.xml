@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//UR1//DTD docbookAllegeEsup//FR"
+"http://www.esup-portail.org/consortium/espace/docbook/xxe/dtd/docbook_allege_esup.dtd">
+<article lang="FR">
+  <title>Canal MonDossierWeb</title>
+
+  <subtitle>Utilisation</subtitle>
+
+  <section>
+    <title>Généralités</title>
+
+    <para>Les différentes rubriques du canal sont accessibles via les liens du
+    bandeau supérieur. Deux liens supplémentaires peuvent également être
+    présents si la configuration du canal le permet :<itemizedlist>
+        <listitem>
+          <para>Un lien "Nous contacter", permettant à l'étudiant de contacter
+          la scolarité pour lui poser d'éventuelles questions relatives à son
+          dossier</para>
+        </listitem>
+
+        <listitem>
+          <para>Un lien "Afficher mon identité", présentant un résumé de
+          l'identité de l'étudiant dans chacune des rubriques. Cette
+          fonctionnalité peut être utile lors de l'impression du
+          dossier</para>
+        </listitem>
+      </itemizedlist></para>
+  </section>
+
+  <section>
+    <title>Etat-civil</title>
+
+    <para>Il présente les informations générales de l'étudiant (numéro NNE,
+    nom, date de naissance, etc.), sa première inscription en Université ainsi
+    que les informations relatives à l'obtention du bac.</para>
+  </section>
+
+  <section>
+    <title>Adresses</title>
+
+    <para>Sont ici présentées l'adresses fixe et l'adresse annuelle de
+    l'étudiant.</para>
+  </section>
+
+  <section>
+    <title>Inscriptions</title>
+
+    <para>Les inscriptions regroupent le cursus de l'étudiant au sein de
+    l'Université ainsi que son parcours dans les autres établissements de
+    l'Enseignement supérieur.</para>
+  </section>
+
+  <section>
+    <title>Calendrier des examens</title>
+
+    <para>Il présente les horaires (date, heure, durée) et lieux (bâtiment,
+    salle) d'examens.</para>
+
+    <para>On affiche que les calendriers dont le nom dans le référentiel
+    Apogée commence par @ (seule méthode trouvée pour l'instant pour
+    reconnaître les calendriers à publier).</para>
+
+    <para>Concernant le plugin CalExam, on affiche les calendriers définis et
+    publiés à travers les traitements personnalisés d'APOGEE : Il s'agit d'une
+    entrée de menu que l'AMUE prévoit dans son logiciel APOGEE pour permettre
+    aux établissements d'intégrer leurs developpements internes.
+    L'installation de ces traitements personnalisés est décrite dans le
+    répertoire <filename>oracle</filename> du plugin
+    <emphasis>CalExam.</emphasis></para>
+  </section>
+
+  <section>
+    <title>Notes et résultats</title>
+
+    <para>Le premier écran présente les résultats aux diplômes ainsi qu'aux
+    différentes étapes. Un clic sur leur code ou leur libellé permet d'accéder
+    au détail des notes des éléments et épreuves.</para>
+
+    <para>Le principe appliqué est le suivant : <itemizedlist>
+        <listitem>
+          <para>Sont affichées toutes les notes et résultats à l'état 'E' ou
+          'T' dans Apogée pour les VDI, VET ou éléments</para>
+        </listitem>
+
+        <listitem>
+          <para>Par défaut, les notes des épreuves sont affichées si le témoin
+          "Modalités de contrôle des connaissances" (dans l'écran "Epreuve" du
+          domaine "Epreuve") d'Apogée est coché pour l'épreuve. L'affichage
+          prend également en compte l'état de l'ELP père : <itemizedlist>
+              <listitem>
+                <para>Si cet état vaut 'E' ou 'T', alors les notes seront
+                toujours visibles</para>
+              </listitem>
+
+              <listitem>
+                <para>S'il vaut 'A', seul le témoin "Modalités de contrôle des
+                connaissances" est pris en compte</para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+
+        <listitem>
+          <para>Si l'état d'avancement de la VET est à 'A' (Session 0 = A ou
+          Session 1 et 2 = A / A, E / A ou T / A), l'avertissement suivant est
+          affiché sur la page des notes aux éléments et épreuves : "Notes
+          données à titre informatif dans l'attente de la validation par le
+          jury de diplôme". Si l'état d'avancement est à 'E' ou 'T', rien
+          n'est affiché.</para>
+        </listitem>
+      </itemizedlist>Bien sûr, vous avez toujours la possibilité de surcharger
+    ce comportement par défaut pour implémenter vos propres règles de
+    gestion.</para>
+
+    <para>Concernant le plugin Resultat, on affiche que les résultats de
+    l'année en cours en s'appuyant sur le module d'extraction APOGEE.</para>
+  </section>
+
+  <section>
+    <title>Calendrier de rentrée</title>
+
+    <para>Il est uniquement disponible avec le plugin CalRent.</para>
+
+    <para>Le calendrier de rentrée s'appuie sur le module d'extraction
+    APOGEE.</para>
+
+    <para>Voir le répertoire <filename>oracle</filename> dans le plugin
+    CalRent.</para>
+  </section>
+
+  <section>
+    <title>Extension</title>
+
+    <para>Ce canal peut également être utilisé en mode servant via la classe
+    <filename>MonDossierWebServant.java</filename></para>
+  </section>
+</article>

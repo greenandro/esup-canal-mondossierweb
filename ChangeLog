@@ -1,0 +1,116 @@
+version 3.8 (20/12/2006)
+- Correction bug du témoin isProf (témoin "vue Etudiant")
+- Ajout du test du témoin eta_pmt_iae (='P') dans INS_ADM_ETP (ligne 628 dans Notes.java ; ligne 143 dans Inscription.java)
+************
+version 3.7 (20/12/2006)
+- Ajout d'un paramètre pour l'affichage ou pas du numéro de place dans le calendrier d'examen
+************
+version 3.6 (04/12/2006)
+- Modification de l'appel au serveur Photo (uniquement Université Nancy 2)
+- Test que la note et le résultat ne sont pas null dans Get_Note_Res(), Notes.java
+************
+version 3.5 (27/11/2006)
+- Ajout de la 3ème ligne de l'adresse (ne s'affiche pas si rien de saisi dans Apogée)
+- Affichage d'un 0 devant les notes inférieures à 1 (,5 devient 0,5)
+************
+version 3.4 (07/11/2006)
+- Intégration de la contribution d'Olivier Mounier (St-Etienne) concernant l'affichage complet 
+de la salle et l'affichage du numéro de place  
+- Ajout d'un message optionnel sur le calendrier des examens sous forme d'option dans le fichier de config
+************
+version 3.3 (12/06/2006)
+- Intégration de la photo de l'étudiant (uniquement Université Nancy 2)
+- Intégration de la génération PDF des notes
+- Gestion dans la récupération des notes aux épreuves de l'état E ou T (ticket 1240)
+- Intégration de la contribution de Stéphane Richard (St-Etienne) concernant l'affichage des deuxième
+et troisième prénoms, du nom d'usage et de la récupération dans Apogée des codes résultats
+************
+version 3.2 (04/04/2006)
+- Modification de la classe Notes pour sortir les requêtes dans des méthodes spécifiques
+- Correction de la récupération des étapes d'un étudiant (prise en compte du témoin cod_typ_ipe != N)
+************
+version 3.1 (07/02/2006)
+- Modification de la récupération du type d'examen dans le plugin calExam (Calendrier d'examen)
+************
+version 3.0 (23/01/2006)
+- Test de la connectivité à la base de données : si pas ok, message d'erreur msgErreurBD configurable en fichier de conf
+- Passage de la documentation au format docbook
+************
+version 2.5-RC-1 (11/01/2006)
+- Récupération de l'établissement par défaut via une requête Apogée
+************
+version 2.4-RC-1 (28/09/2005)
+- Correction du retour du canal MailTo sur l'affichage des Elements et épreuves
+- Ajout d'un message d'avertissement sur la validité des mails lors de l'utilisation du canal MailTo
+- Modification de l'affichage de l'adresse annuelle : Utilisation de la dernière année d'inscription administrative de la personne
+- Suppression du paramètre COD_ANU_INS du fichier de config
+************
+version 2.3-RC-1 (07/07/2005)
+- Correction de la gestion du cache dans l'affichage des notes pour consulter comme un étudiant en mode servant
+************
+version 2.2-RC-1 (23/06/2005)
+- Correction d'un paramètre en mode servant dans Notes.java
+- Ajout de l'identité de l'étudiant sur chaque page (configurable dans le fichier de config)
+- Modification de la target ant pour la compilation en unicode
+- Correction de la requête du plugin resultat d'examen du a des problèmes avec les dates
+************
+version 2.1-RC-2 (09/06/2005)
+- Ajout du type d'examen dans le plugin calExam (Calendrier d'examen)
+************
+version 2.1-RC-1 (04/04/2005)
+- Correction d'une connexion non fermée dans Notes.java
+************
+version 2.0-RC-6 (04/04/2005)
+- Ajout des XMLEscaper.escape() manquant dans Notes.java, Adresses.java, Calendrier.java, CMonDossierWeb.java, EtatCivil.java, Inscription.java
+************
+version 2.0-RC-5 (10/03/2005)
+- Remise en place des classe JAVA dans les plugin.
+************
+version 2.0-RC-4 (07/03/2005)
+- Remplacement du fichier folderopen.gif
+- Remplacement des libellés "Juin" par "Session 1" et de "Septembre" par "Session 2" 
+Ajout du lien "Nous contacter"
+************
+version 2.0-RC-3 (18/02/2005)
+- Amelioration des fichier XSL pour les plugins
+- Corrections d'erreur JAVA dans les plugins
+************
+version 2.0-RC-2 (14/02/2005)
+- Mise en conformité des log des plugins
+- Mises à jour des fichiers build.properties et build.xml
+- Corrections de la requête pour le plugin Resultat :
+	suppression des appels aux tables LOCAL_XXX
+	suppression de l'appel à la fonction Oracle ren1_str_xml
+************
+version 2.0-RC-1 (19/01/2005)
+- Intégration du canal CMailTo pour la gestion des liens mailTo dans la rubrique Etat civil. Dépendance configurable dans le fichier de config du canal.
+- Mise en conformité des logs 
+- Mise à jour du look du canal
+- Mise à jour des fichiers build.properties et build.xml
+************
+version 1.6-RC-1 (30/09/2004 : à valider avec Rennes1)
+- Modification du mécanisme de récupération des adresses mails des étudiants : 
+utilisation d'une interface permettant des implémentations différentes suivant les Universités
+************
+version 1.5-RC-1 (13/09/2004)
+- Ajout des plug-ins Calendrier de rentrée, calendrier d'examen, et affichage des résultats
+*************
+version 1.05-RC-1 (08/09/2004) : 
+- Amélioration de la gestion des erreurs
+- Correction d'un bug lors du clic sur une étape n'ayant pas encore de résultat dans la partie "Notes"
+- Passage des fichiers xml/xsl en UTF-8
+************
+version 1.04-RC-1 (06/09/2004)
+- Modification des feuilles de style xsl et ajout des icônes/images
+************
+version 1.03-RC-1 (07/06/2004)
+- Nouveau mode d'enregistrement des plug-in
+************
+version 1.02-RC-1 (04/06/2004)
+- Modification des CSS
+************
+version 1.0-RC-1 (27/05/2004)
+* version de base
+
+
+

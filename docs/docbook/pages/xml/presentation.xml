@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//UR1//DTD docbookAllegeEsup//FR"
+"http://www.esup-portail.org/consortium/espace/docbook/xxe/dtd/docbook_allege_esup.dtd">
+<article lang="FR">
+  <title>Canal MonDossierWeb</title>
+
+  <articleinfo>
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="media/logo.GIF"></imagedata>
+      </imageobject>
+    </mediaobject>
+
+    <abstract>
+      <para>Le canal MonDossierWeb permet aux étudiants de consulter leur
+      dossier personnel (Etat-civil, Adresses, Inscriptions, Calendrier des
+      examens, Notes et Résultats). Il regroupe des fonctionnalités
+      développées par les Universités Nancy 2 et Rennes 1.</para>
+    </abstract>
+
+    <author>
+      <firstname>Cédric</firstname>
+
+      <surname>Champmartin, Sébastien Gougeon, Fabien Wald</surname>
+
+      <affiliation>
+        <orgname><ulink url="http://www.univ-nancy2.fr/">Université de Nancy
+        2</ulink>, <ulink url="http://www.univ-rennes1.fr/">Université de
+        Rennes 1</ulink></orgname>
+      </affiliation>
+    </author>
+
+    <revhistory>
+      <revision>
+        <revnumber>3.0</revnumber>
+
+        <date>23 janvier 2006</date>
+      </revision>
+
+      <revision>
+        <revnumber>3.1</revnumber>
+
+        <date>16 février 2006</date>
+      </revision>
+
+      <revision>
+        <revnumber>3.2</revnumber>
+
+        <date>12 juin 2006</date>
+
+        <revdescription>
+          <para>Ajout de la section "Autres options de configuration" dans la
+          partie Installation; Mise à jour des règles d'affichage des notes
+          aux épreuves dans la partie Utilisation</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <revnumber>3.3</revnumber>
+
+        <date>29 juin 2006</date>
+
+        <revdescription>
+          <para>Ajout de la section "Actions" dans la partie
+          Installation</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+  </articleinfo>
+
+  <para></para>
+</article>

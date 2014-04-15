@@ -1,0 +1,67 @@
+<!-- Un exemple type de dtd d'une channel -->
+<!ELEMENT config (pools?,actions,displayError?,mailError?,studentMail?,lienContact?,rappelIdentite,msgInterdit,msgErreurBD,options)>
+<!ELEMENT pools (pool+)>
+<!ELEMENT pool EMPTY>
+<!ATTLIST pool
+  name CDATA #REQUIRED
+  type (JNDI|JDBC) "JNDI"
+  url CDATA #REQUIRED
+  driverClassName CDATA #IMPLIED
+  username CDATA #IMPLIED
+  password CDATA #IMPLIED
+>  
+<!ELEMENT actions (action+)>
+<!ATTLIST actions
+  xmlencoding CDATA "ISO-8859-1" 
+  log (debug|info|error|fatal) "debug"
+>  
+<!ELEMENT action (param*)>
+<!ATTLIST action
+  name CDATA #REQUIRED
+  classname CDATA #REQUIRED
+  type (normal|servant) "normal"
+  rendertype (ssl|xsl) "xsl"
+  sslfile CDATA #IMPLIED
+  ssltitle CDATA #IMPLIED
+  xslfile CDATA #IMPLIED
+  init CDATA "init" 
+  setoutput CDATA "setOutput"
+  setxml CDATA "setXML"
+  renderxml CDATA "renderXML"
+  servantfinish CDATA #IMPLIED
+  cachetype (default|channel|instance) "default"
+>
+<!ELEMENT param (value+)>
+<!ATTLIST param
+  name CDATA #REQUIRED
+>
+<!ELEMENT value (#PCDATA)>
+<!ELEMENT displayError (#PCDATA)>
+<!ELEMENT mailError (smtp,from,to,subject,message)>
+<!ELEMENT smtp (#PCDATA)>
+<!ELEMENT from (#PCDATA)>
+<!ELEMENT to (#PCDATA)>
+<!ELEMENT subject (#PCDATA)>
+<!ELEMENT message (#PCDATA)>
+<!ELEMENT COD_ANU_INS (#PCDATA)>
+<!ELEMENT studentMail (classMail,extMail)>
+<!ELEMENT classMail (#PCDATA)>
+<!ELEMENT extMail (#PCDATA)>
+<!ELEMENT lienContact EMPTY>
+<!ATTLIST lienContact
+  value CDATA #REQUIRED
+>  
+<!ELEMENT rappelIdentite EMPTY>
+<!ATTLIST rappelIdentite
+  value CDATA #REQUIRED
+>  
+<!ELEMENT msgInterdit (#PCDATA)>
+<!ELEMENT msgErreurBD (#PCDATA)>
+
+<!ELEMENT options (option*)>
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+  name CDATA #REQUIRED
+  value CDATA #REQUIRED
+>  
+

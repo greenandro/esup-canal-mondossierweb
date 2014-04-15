@@ -1,0 +1,2 @@
+* Voir le site http://www.esup-portail.org/consortium/espace/Scolarite_3A/CMonDossierWeb/index.html
+* Ou directement en utilisant le chanpub pubchan_CMonDossierWeb.xml : ant uportal.pubchan -Dchannel=pubchan_CMonDossierWeb.xml

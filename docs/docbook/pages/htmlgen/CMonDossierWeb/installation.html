@@ -1,0 +1,480 @@
+<html xmlns:xs="http://www.w3.org/2001/XMLSchema" lang="FR">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Canal MonDossierWeb</title>
+      <link rel="stylesheet" href="http://www.esup-portail.org/consortium/espace/docbook/esup.css" type="text/css">
+      <meta name="generator" content="DocBook ESUP XSL Stylesheets V1.0">
+   </head>
+   <body>
+      <div class="pagetitleborder"><span class="pagetitle">Canal MonDossierWeb</span><br><span class="pagesubtitle">Installation</span><br></div>
+      <div class="index">
+         <dl>
+            <dt><span class="sectionmenu"><a href="#1">1.  Pr&eacute;-requis</a></span></dt>
+            <dt><span class="sectionmenu"><a href="#2">2.  Installation</a></span></dt>
+            <dd>
+               <dl>
+                  <dt><span class="sectionmenu"><a href="#2.1">2.1.  Configuration du canal</a></span></dt>
+                  <dd>
+                     <dl>
+                        <dt><span class="sectionmenu"><a href="#2.1.1">2.1.1.  Pool de connexion</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.2">2.1.2.  Actions</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.3">2.1.3.  Adresse mail des &eacute;tudiants</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.4">2.1.4.  Lien "Nous contacter"</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.5">2.1.5.  Rappel de l'identit&eacute; de l'&eacute;tudiant</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.6">2.1.6.  Messages</a></span></dt>
+                        <dt><span class="sectionmenu"><a href="#2.1.7">2.1.7.  Autres options de configuration</a></span></dt>
+                     </dl>
+                  </dd>
+                  <dt><span class="sectionmenu"><a href="#2.2">2.2.  Installation des plug-ins</a></span></dt>
+                  <dt><span class="sectionmenu"><a href="#2.3">2.3.  D&eacute;ploiement du Canal</a></span></dt>
+                  <dd>
+                     <dl>
+                        <dt><span class="sectionmenu"><a href="#2.3.1">2.3.1.  Publication du canal</a></span></dt>
+                     </dl>
+                  </dd>
+               </dl>
+            </dd>
+         </dl>
+      </div><a name="1"></a>
+          
+      <h1>1.  Pr&eacute;-requis</h1>
+      
+          
+      <p>Le canal a &eacute;t&eacute; test&eacute;e sur Apog&eacute;e 3.40 avec une base Oracle 9i. Il ne
+             fonctionne pas sur une base Oracle 8i.
+      </p>
+      
+          
+      <p>Pour qu'il fonctionne correctement, il est n&eacute;cessaire d'avoir
+             install&eacute; au pr&eacute;alable : 
+         <div>
+            <ul>
+               <li>
+                            
+                  <p>Le package <a href="http://esup-portail.org/consortium/espace/Scolarite_3A/connecteur_apogee.html">connecteur
+                                  Apog&eacute;e</a></p>
+                          
+               </li>
+               <li>
+                            
+                  <p>Le package <a href="http://esup-portail.org/consortium/espace/Socle_1A/esup-utils-mag/index.html">esup-utils-mag</a></p>
+                          
+               </li>
+               <li>
+                            
+                  <p>Le canal <a href="http://esup-portail.org/consortium/espace/Comm_2D/CMailto/index.html">MailTo</a>
+                               (utilis&eacute; en servant ; optionnel : voir la partie
+                               Configuration)
+                  </p>
+                          
+               </li>
+               <li>
+                            
+                  <p>Le driver oracle 9i (pour Apog&eacute;e 3.40) nomm&eacute;
+                               <span class="filename">ojdbc14.jar</span> qui remplace le pr&eacute;c&eacute;dent
+                               <span class="filename">classes12.jar</span>.<span class="emphasis"> </span>Oracle 9i
+                               est indispensable au bon fonctionnement du canal.
+                  </p>
+                          
+               </li>
+            </ul>
+         </div>
+         <div class="note">
+            <p class="notetitle">
+               						Note
+               					
+            </p>
+            <p>L'&eacute;dition des notes au format PDF n&eacute;cessite la version 2.4 du
+                       MAG
+            </p>
+         </div>
+      </p>
+        <a name="2"></a>
+          
+      <h1>2.  Installation</h1>
+      
+          
+      <p>L'installation du canal MonDossierWeb repose sur les actions
+             suivantes:
+      </p>
+      
+          
+      <div>
+         <ul>
+            <li>
+                       
+               <p>Configuration du canal</p>
+                     
+            </li>
+            <li>
+                       
+               <p>Installation &eacute;ventuelle des plugins</p>
+                     
+            </li>
+            <li>
+                       
+               <p>D&eacute;ploiement du canal</p>
+                     
+            </li>
+         </ul>
+      </div>
+      
+          <a name="2.1"></a>
+            
+      <h2>2.1.  Configuration du canal</h2>
+      
+            
+      <p>La configuration g&eacute;n&eacute;rale du canal se fait via le fichier
+               <span class="filename">properties/CMonDossierWeb.xml</span> Seuls les points
+               abord&eacute;s ci-dessous sont param&egrave;trables.
+      </p>
+      
+            <a name="2.1.1"></a>
+              
+      <h3>2.1.1.  Pool de connexion</h3>
+      
+              
+      <p>Il fait r&eacute;f&eacute;rence au pool de connexion vers Apog&eacute;e. Ce pool doit
+                 conserver comme nom "default" (<span class="emphasis">name="default"</span>) .
+                 Si vous conservez <span class="emphasis">JNDI</span> comme valeur pour
+                 l'attribut <span class="emphasis">type</span>, il faut que l'attribut
+                 <span class="emphasis">url</span> match le pool de connexion Tomcat.
+      </p>
+      
+              
+      <p>Exemple :</p>
+      
+              
+      <p>Dans le fichier de configuration du canal : <pre class="programlisting">&lt;pool name="default" type="JNDI" url="<span class="emphasis">Apogee</span>" /&gt;</pre></p>
+      
+              
+      <p>Dans le fichier <span class="filename">server.xml</span> de Tomcat :
+                 <pre class="programlisting">&lt;Resource name="jdbc/<span class="emphasis">Apogee</span>" auth="Container" type="javax.sql.DataSource"
+    username="..." password="..."
+    driverClassName="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@&lt;serveur&gt;:&lt;port&gt;:&lt;base&gt;"
+    maxActive="100" maxIdle="30" maxWait="10000"/&gt;</pre></p>
+      
+              
+      <p>Pour plus de d&eacute;tails sur la configuration du pool, voir le mdule
+                 <span class="emphasis">database</span> du package
+                 <span class="emphasis">esup-utils-mag</span>.
+      </p>
+            
+      
+            <a name="2.1.2"></a>
+              
+      <h3>2.1.2.  Actions</h3>
+      
+              
+      <p>La d&eacute;finition des actions ne doit pas &ecirc;tre modifi&eacute;e.</p>
+      
+              
+      <p>Cependant, il est possible pour l'action
+                 <span class="emphasis">etat_civil</span> de d&eacute;commenter un param&egrave;tre
+                 <span class="emphasis">option</span> dont la liste des valeurs sp&eacute;cifie les
+                 options d&#8217;affichage activ&eacute;es : pr&eacute;nom2 et/ou pr&eacute;nom3 et/ou nom
+                 d&#8217;usage.
+      </p>
+      
+              <pre class="programlisting">&lt;param name="option"&gt;
+   &lt;value&gt;prenom2&lt;/value&gt;
+   &lt;value&gt;prenom3&lt;/value&gt;
+   &lt;value&gt;nom_usage&lt;/value&gt;
+&lt;/param&gt;</pre>
+      
+              <p>Ces options d'affichage sont alors visibles dans l'onglet
+                 Etat-civil ainsi que dans le rappel de l'identit&eacute; de l'&eacute;tudiant,
+                 disponible sur les autres pages.
+      </p>
+      
+              
+      <p>Pour n'utiliser par exemple que le nom d'usage, il convient de
+                 mettre en commentaire, laisser vide ou supprimer les balises
+                 <span class="emphasis">&lt;value&gt;</span> correspondant aux autres options.
+                 Attention, la dtd exige au moins une sous-balise
+                 <span class="emphasis">&lt;value&gt;</span> : il faut donc mettre en
+                 commentaire le bloc<span class="emphasis"> &lt;param&gt;</span> pour n'utiliser
+                 aucune des options d'affichage.
+      </p>
+      
+              
+      <p>Par d&eacute;faut, les options d'affichage sont d&eacute;sactiv&eacute;es.</p>
+            
+      
+            <a name="2.1.3"></a>
+              
+      <h3>2.1.3.  Adresse mail des &eacute;tudiants</h3>
+      
+              
+      <p>La balise <span class="emphasis">studentMail</span> permet de sp&eacute;cifier
+                 la classe impl&eacute;mentant la m&eacute;thode de r&eacute;cup&eacute;ration des adresses mail
+                 des &eacute;tudiants (sous balise <span class="emphasis">classMail</span>) ainsi que
+                 l'extension utilis&eacute;e pour g&eacute;n&eacute;rer l'adresse &agrave; partir du login (sous
+                 balise <span class="emphasis">extMail</span>). Mettre en commentaire le bloc
+                 <span class="emphasis">&lt;studentMail&gt;&lt;/studentMail&gt;</span> pour ne
+                 pas utiliser cette fonctionnalite.<pre class="programlisting">&lt;studentMail&gt;
+ &lt;classMail&gt;StudentMail&lt;/classMail&gt;
+ &lt;extMail&gt;@etudiant.univ.fr&lt;/extMail&gt;
+&lt;/studentMail&gt;</pre></p>
+      
+              
+      <div class="note">
+         <p class="notetitle">
+            						Note
+            					
+         </p>
+         <p>Ne pas mettre en commentaire ce bloc si l'action
+                      <span class="emphasis">sendMail</span> est activ&eacute;e.
+         </p>
+         <p>Pour personnaliser la r&eacute;cup&eacute;ration des adresses mail, il faut
+                      d&eacute;finir sa propre classe <span class="emphasis">StudentMail</span> qui
+                      impl&eacute;mente l'interface <span class="emphasis">IMail</span> et indiquer son
+                      nom dans le fichier de configuration du canal (balise
+                      <span class="emphasis">&lt;classMail&gt;</span>).
+         </p>
+      </div>
+            
+      
+            <a name="2.1.4"></a>
+              
+      <h3>2.1.4.  Lien "Nous contacter"</h3>
+      
+              
+      <p>Il est possible d'afficher sur toutes les pages du canal un lien
+                 "Nous contacter" permettant aux &eacute;tudiants de poser des questions &agrave; la
+                 Scolarit&eacute;.
+      </p>
+      
+              
+      <p>Si l'action <span class="emphasis">sendMail</span> est activ&eacute;e, le canal
+                 <span class="emphasis">CMailTo</span> sera utilis&eacute;. Dans le cas contraire, le
+                 lien sera de la forme <span class="emphasis">mailTo:....</span><pre class="programlisting">&lt;lienContact value="scolarite@univ.fr" /&gt;</pre>Pour
+                 ne pas utiliser cette fonctionnalit&eacute;, mettre en commentaire la
+                 balise.</p>
+            
+      
+            <a name="2.1.5"></a>
+              
+      <h3>2.1.5.  Rappel de l'identit&eacute; de l'&eacute;tudiant</h3>
+      
+              
+      <p>Il es possible de rappeler sur chacune des pages du canal un
+                 rappel de l'&eacute;tudiant connect&eacute;. Cette fonctionnalit&eacute; peut-&ecirc;tre utile en
+                 cas d'impression.<pre class="programlisting">&lt;rappelIdentite value="true"/&gt;</pre>Pour
+                 ne pas utiliser cette fonctionnalit&eacute;, mettre &agrave;
+                 <span class="emphasis">false</span>.
+      </p>
+      
+              
+      <div class="note">
+         <p class="notetitle">
+            						Note
+            					
+         </p>
+         <p>Pour ne pas utiliser le canal MailTo pour l'envoi des mails
+                      lors des clics sur les adresses &eacute;lectroniques des &eacute;tudiants, mettre
+                      en commentaire la balise <span class="emphasis">&lt;action name="sendMail"
+                         ..../&gt;</span>. Dans ce cas, les liens sur les adressses mail
+                      seront du type <span class="emphasis">mailto:...</span></p>
+      </div>
+            
+      
+            <a name="2.1.6"></a>
+              
+      <h3>2.1.6.  Messages</h3>
+      
+              <a name="2.1.6.1"></a>
+                
+      <h4>2.1.6.1.  Message affich&eacute; si l'utilisateur n'a pas le droit de
+                   consulter le canal
+      </h4>
+      
+                
+      <p>Le message affich&eacute; &agrave; l'utilisateur est param&egrave;trable via la
+                   balise <span class="emphasis">msgInterdit.</span></p>
+              
+      
+              <a name="2.1.6.2"></a>
+                
+      <h4>2.1.6.2.  Message affich&eacute; si la base de donn&eacute;es n'est pas
+                   disponible
+      </h4>
+      
+                
+      <p>Le message affich&eacute; &agrave; l'utilisateur est param&egrave;trable via la
+                   balise <span class="emphasis">msgErreurBD.</span></p>
+              
+            
+      
+            <a name="2.1.7"></a>
+              
+      <h3>2.1.7.  Autres options de configuration</h3>
+      
+              
+      <p>Cette partie permet de rajouter des options de configuration non
+                 obligatoires ou propre &agrave; un &eacute;tablissement.
+      </p>
+      
+              
+      <p>L'&eacute;dition pdf des notes est propos&eacute;e dans cette section. Cette
+                 option est d&eacute;sactiv&eacute;e par d&eacute;faut.
+      </p>
+      
+              
+      <div class="note">
+         <p class="notetitle">
+            						Note
+            					
+         </p>
+         <p>Si vous d&eacute;sirez utiliser l'&eacute;dition pdf des notes, il faut
+                      d&eacute;ployer les jar <span class="emphasis">fop-0.20.5.jar</span>,
+                      <span class="emphasis">batik-1.6.jar</span> et
+                      <span class="emphasis">avalon-framework-4.2.0.jar</span> disponibles dans le
+                      r&eacute;pertoire <span class="emphasis">lib</span> du canal
+         </p>
+      </div>
+      
+              
+      <p>Un message explicatif pour le calendrier des examens est
+                 &eacute;galement propos&eacute;. Il est ainsi personnalisable et peut &ecirc;tre d&eacute;sactiv&eacute;
+                 en mettant &agrave; vide la propri&eacute;t&eacute; <span class="emphasis">value</span> ou en
+                 commentant la balise <span class="emphasis">&lt;option&gt;</span>
+                 correspondante.
+      </p>
+      
+              
+      <p>Enfin, toujours pour le calendrier des examens, il est possible
+                 de d&eacute;sactiver l'affichage des num&eacute;ros de place en mettant &agrave;
+                 <span class="emphasis">false</span> l'option
+                 <span class="emphasis">affNumPlaceExamen</span>.
+      </p>
+            
+          
+      
+          <a name="2.2"></a>
+            
+      <h2>2.2.  Installation des plug-ins</h2>
+      
+            
+      <p>Nancy 2 et Rennes 1 n'extrayant pas les donn&eacute;es provenant d'APOGEE
+               de la m&ecirc;me fa&ccedil;on, il existe donc la possibilit&eacute; d'installer des plug-ins
+               d'apr&egrave;s votre m&eacute;thode d'extraction des donn&eacute;es.
+      </p>
+      
+            
+      <p>Les sources des plug-ins se situent dans le r&eacute;pertoire
+               <span class="filename">plugin</span> pr&eacute;sent &agrave; la racine du package. Ils ne sont
+               pas deploy&eacute;s en m&ecirc;me temps que le canal.
+      </p>
+      
+            
+      <p>Pour les utiliser, il faut d&eacute;commenter les lignes correspondantes
+               dans le fichier de configuration <span class="filename">CMonDossierWeb.xml</span>
+               qui se trouve dans le r&eacute;pertoire <span class="filename">properties</span> et
+               mettre en commentaire les actions dont vous ne vous servez pas.
+      </p>
+      
+            
+      <p>D&eacute;commenter aussi dans le fichier
+               <span class="filename">CMonDossierWeb.ssl</span> qui se trouve dans
+               <span class="filename">webpages/stylesheets/org/esupportail/portal/channels/gestion/CMonDossierWeb/</span>
+               les lignes correspondant aux plug-ins.
+      </p>
+      
+            
+      <p>Voir aussi le fichier <span class="filename">Liens.xsl</span> pour
+               s'assurer des liens qui seront pr&eacute;sent &agrave; l'affichage du canal et le
+               fichier <span class="filename">default.xsl</span> pour d&eacute;commenter la d&eacute;scription
+               du plugin R&eacute;sultat.
+      </p>
+      
+            
+      <p>Faire ensuite un <span class="command">ant deploy</span> pour d&eacute;ployer les
+               modifications de configurations ayant trait aux plug-ins.
+      </p>
+      
+            
+      <p>Pour les d&eacute;ployer, il faut lancer la commande :
+         <div>
+            <ul>
+               <li>
+                              
+                  <p><span class="command">ant plugCalRent</span> pour d&eacute;ployer le plugin
+                                 calendrier de rentr&eacute;e
+                  </p>
+                            
+               </li>
+            </ul>
+         </div>
+         <div>
+            <ul>
+               <li>
+                              
+                  <p><span class="command">ant plugCalExam</span> pour d&eacute;ployer le plugin
+                                 de calendrier d'examens
+                  </p>
+                            
+               </li>
+            </ul>
+         </div>
+         <div>
+            <ul>
+               <li>
+                              
+                  <p><span class="command">ant plugResultats</span> pour d&eacute;ployer le plugin
+                                 d'affichage des r&eacute;sultats de l'ann&eacute;e en cours
+                  </p>
+                            
+               </li>
+            </ul>
+         </div>
+      </p>
+          
+      
+          <a name="2.3"></a>
+            
+      <h2>2.3.  D&eacute;ploiement du Canal</h2>
+      
+            
+      <p>Pr&eacute;paration du d&eacute;ploiement : modifier le fichier
+               <span class="filename">build.properties</span> en fonction de la version de
+               portail que vous utilisez (en prenant mod&egrave;le sur le fichier
+               <span class="filename">build.sample.properties</span>).
+      </p>
+      
+            
+      <p>Lancez la commande suivante relative au fichier
+               <span class="filename">build.xml</span> contenu dans le package:
+      </p>
+      
+            <pre class="screen">ant deploy</pre>
+      
+            <p>Il ne reste plus qu'&agrave; l'administrateur du portail de publier le
+               canal.
+      </p>
+      
+            <a name="2.3.1"></a>
+              
+      <h3>2.3.1.  Publication du canal</h3>
+      
+              
+      <p>La publication du canal se fait en saisissant le nom de classe
+                 suivant:
+      </p>
+      
+              
+      <div>
+         <ul>
+            <li>
+                           
+               <p><span class="varname">org.esupportail.portal.channels.gestion.CMonDossierWeb.CMonDossierWeb</span></p>
+                         
+            </li>
+         </ul>
+      </div>
+            
+          
+        
+   </body>
+</html>
