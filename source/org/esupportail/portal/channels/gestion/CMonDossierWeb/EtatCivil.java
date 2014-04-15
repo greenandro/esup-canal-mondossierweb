@@ -94,8 +94,10 @@ public class EtatCivil extends SubChannel  {
 					append("</dossier>").
 					append("<NNE>");
 					if (qry.getRs().getString("cod_nne_ind") != null) {
-						res.append(qry.getRs().getString("cod_nne_ind")).
-						append(qry.getRs().getString("cod_cle_nne_ind"));
+						res.append(qry.getRs().getString("cod_nne_ind"));
+						if (qry.getRs().getString("cod_cle_nne_ind") != null) {
+							res.append(qry.getRs().getString("cod_cle_nne_ind"));
+						}
 					}
 					res.append("</NNE>").
 					append("<nom>").

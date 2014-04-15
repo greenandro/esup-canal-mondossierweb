@@ -170,8 +170,10 @@ public class CMonDossierWeb extends MainChannel {
 						res.append("<dossier>").append(XMLEscaper.escape(qry.getRs().getString("cod_etu"))).append("</dossier>").
 						append("<NNE>");
 						if (qry.getRs().getString("cod_nne_ind") != null) {
-							res.append(qry.getRs().getString("cod_nne_ind")).
-							append(qry.getRs().getString("cod_cle_nne_ind"));
+							res.append(qry.getRs().getString("cod_nne_ind"));
+                                        		if (qry.getRs().getString("cod_cle_nne_ind") != null) {
+								res.append(qry.getRs().getString("cod_cle_nne_ind"));
+							}
 						}
 						res.append("</NNE>").
 							append("<nom>").append(XMLEscaper.escape(qry.getRs().getString("lib_nom_pat_ind"))).append("</nom>").
