@@ -109,11 +109,12 @@ public class Notes extends SubChannel {
 		// création du flux xml
 		if (xmlRES_ELP_EPR.get(key) == null) {
 			// calcul du flux
-			res.append(getXmlRES_ELP_EPR());
+			StringBuffer xmlRES_ELP_EPR_str = getXmlRES_ELP_EPR();
+			res.append(xmlRES_ELP_EPR_str);
 			// pas de résultat
-			if (getXmlRES_ELP_EPR() == null) 
+			if (xmlRES_ELP_EPR_str == null) 
 				return null;
-			xmlRES_ELP_EPR.put(key,getXmlRES_ELP_EPR());
+			xmlRES_ELP_EPR.put(key,xmlRES_ELP_EPR_str);
 		}	
 		else { // récupération du xml déjà calculé
 			res.append(xmlRES_ELP_EPR.get(key));
